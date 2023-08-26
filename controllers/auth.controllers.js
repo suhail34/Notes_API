@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const User = require('../models/user.models');
 const cookie = require('cookie-parser');
 
@@ -38,10 +37,16 @@ const createToken = (id) => {
   return jwt.sign({id},process.env.API_SECRET,{expiresIn:maxAge});
 }
 
+/**
+ * Function for User Registration
+ * @param {*} req 
+ * @param {*} res 
+ */
 const signup_post = async (req, res) => {
   const {fullName,email,role,password} = req.body
   try {
     const user = await User.create({fullName,email,role,password})
+    console.log(user)
     const token = createToken(user._id)
     res.cookie('jwt',token,{expiresIn:1000*maxAge,httpOnly:true})
     res.status(201).send({user:user._id})
@@ -51,8 +56,14 @@ const signup_post = async (req, res) => {
   }
 }
 
+/**
+ * Function for user login
+ * @param {*} req 
+ * @param {*} res 
+ */
 const signin_post = async (req, res) => {
   const {email, password} = req.body;
+  console.log(email,password)
    try {
     const user = await User.login(email,password)
     const token = createToken(user._id)
@@ -111,6 +122,11 @@ const signin_post = async (req, res) => {
 //   })
 // }
 
+/**
+ * Function for User logout
+ * @param {*} req 
+ * @param {*} res 
+ */
 const logOut = (req, res) => {
   res.cookie('jwt','',{maxAge:1});
   res.redirect('/api/auth/signin');

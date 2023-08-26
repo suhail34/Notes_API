@@ -56,4 +56,11 @@ userSchema.statics.login = async function(email,password) {
   throw Error('Invalid Email');
 }
 
+/**
+ * User Registration Model
+ * @param {String} fullName
+ * @param {String} email
+ * @param {String} role
+ * @param {String} password
+ */
 module.exports = mongoose.model('User',userSchema)

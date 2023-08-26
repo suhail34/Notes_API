@@ -2,6 +2,9 @@ const Notes = require('../models/notes.models')
 const path = require('path')
 const fs = require('fs')
 
+/**
+ * This function gets invoked on get request
+ */
 const myNotes = async (req, res) => {
     const authorName = req.query.author
     const title = req.query.title
@@ -16,6 +19,9 @@ const myNotes = async (req, res) => {
     res.status(200).send({ "message": "Hello" });
 }
 
+/**
+ * This function is used to make notes with images as optional
+ */
 const insertNotes = async (req, res) => {
     
     var obj = {
